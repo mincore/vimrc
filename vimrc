@@ -38,6 +38,8 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'tpope/vim-surround'
 Plugin 'Lokaltog/vim-easymotion'
+Plugin 'mincore/gtags-cscope.vim'
+Plugin 'DoxygenToolkit.vim'
 Plugin 'taglist.vim'
 Plugin 'DrawIt'
 call vundle#end()            " required
@@ -98,21 +100,21 @@ nnoremap <silent> <F7> :NERDTreeToggle<CR>
 "let NERDTreeWinSize=16
 let NERDTreeWinPos="right"
 
-"" DoxygenToolkit setttings
-"let g:DoxygenToolkit_authorName="csp"
-"let g:DoxygenToolkit_briefTag_pre = ""
-"let g:DoxygenToolkit_briefTag_funcName="yes"
-"let g:DoxygenToolkit_briefTag_post = "- "
-"let g:DoxygenToolkit_paramTag_pre="@"
-"let g:DoxygenToolkit_paramTag_post=": "
-"
-"map <F3>a :DoxAuthor
-"map <F3>f :Dox
-"map <F3>b :DoxBlock
-"
-"" gtags-cscope settings
-"let GtagsCscope_Auto_Load = 1
-"let GtagsCscope_Auto_Map = 1
+" DoxygenToolkit setttings
+let g:DoxygenToolkit_authorName="csp"
+let g:DoxygenToolkit_briefTag_pre = ""
+let g:DoxygenToolkit_briefTag_funcName="yes"
+let g:DoxygenToolkit_briefTag_post = "- "
+let g:DoxygenToolkit_paramTag_pre="@"
+let g:DoxygenToolkit_paramTag_post=": "
+
+map <F3>a :DoxAuthor
+map <F3>f :Dox
+map <F3>b :DoxBlock
+
+" gtags-cscope settings
+let GtagsCscope_Auto_Load = 1
+let GtagsCscope_Auto_Map = 1
 
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 
