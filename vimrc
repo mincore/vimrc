@@ -130,7 +130,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'godlygeek/tabular'
 Plugin 'ctrlpvim/ctrlp.vim'         "[ctrl+p] search file
-Plugin 'tpope/vim-surround'         "[cs'] easily delete, change and add surroundings, just like ci di yi vi
+Plugin 'tpope/vim-surround'         "[cs'] easily delete, change and add surroundings
 Plugin 'Lokaltog/vim-easymotion'    "[<leader><leader>f] location word
 Plugin 'mincore/gtags-cscope.vim'
 Plugin 'mincore/vim-ttcn'
@@ -145,6 +145,7 @@ Plugin 'junegunn/goyo.vim'
 Plugin 'asciidoc.vim'
 Plugin 'lyuts/vim-rtags'
 Plugin 'fatih/vim-go'
+Plugin 'jiangmiao/auto-pairs'
 call vundle#end()            " required
 filetype plugin indent on    " required
 "vundle end
@@ -259,17 +260,30 @@ endfunc
 
 autocmd BufNewFile *.h,*.hpp :call AddFileHeaderProtection()      
 func AddFileHeaderProtection()
-    let l:filename = substitute(toupper(expand("%")), "\\.", "_", "g")
-    call setline(1, "#ifndef " . l:filename)  
-    call setline(2, "#define " . l:filename)  
+    let l:filename = substitute(expand("%"), "[\\./]", "_", "g")
+    call setline(1, "#ifndef _" . toupper(l:filename))
+    call setline(2, "#define _" . toupper(l:filename)) 
     call setline(3, "")
     call setline(4, "")
     call setline(5, "")
     call setline(6, "#endif")
-    call cursor(4, 0, 0)
+    call AddAuthorInfomation()
 endfunc
 
+autocmd BufNewFile *.c,*.cpp,*.cxx,*.cc :call AddAuthorInfomation()      
+func AddAuthorInfomation()
+    call append(0, "/* =====================================================================")
+    call append(1, " * Copyright (C) " . strftime("%Y") . " chen shuangping. All Rights Reserved")
+    call append(2, " *    Filename: " . expand("%"))
+    call append(3, " * Description: ")
+    call append(4, " *     Created: " . strftime("%c"))
+    call append(5, " *      Author: csp@kuangzhitech.com")
+    call append(6, " * =====================================================================")
+    call append(7, " */")
+    call cursor(4, 17, 0)
+endfunc
+
+autocmd BufRead *.ttcn3 call OnTtcnLoaded()
 func OnTtcnLoaded()
   set filetype=ttcn
 endfunc
-autocmd BufRead *.ttcn3 call OnTtcnLoaded()
