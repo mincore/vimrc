@@ -68,10 +68,9 @@ let g:mapleader=","
 
 " keymaps
 nmap <leader>/ :nohl<CR>
-nmap <leader>m :make<CR>
 
 " show-invisibles
-set listchars=tab:▸\ ,trail:·
+"set listchars=tab:▸\ ,trail:·
 nmap <leader>v :set list!<CR>: set cursorcolumn!<CR>
 
 " reload vimrc
@@ -79,6 +78,8 @@ nmap <leader>rv :source $MYVIMRC<CR>
 
 " Fast saving
 nmap <leader>w :w!<cr>
+
+nmap <leader>q :q<CR>
 
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
@@ -126,6 +127,7 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'   "[,cc ,cu] comment lines
+Plugin 'shougo/neocomplete'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'godlygeek/tabular'
@@ -146,6 +148,7 @@ Plugin 'asciidoc.vim'
 Plugin 'lyuts/vim-rtags'
 Plugin 'fatih/vim-go'
 Plugin 'jiangmiao/auto-pairs'
+Plugin 'mincore/my.vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
 "vundle end
@@ -184,15 +187,6 @@ let GtagsCscope_Auto_Map = 1
 
 let g:UltiSnipsExpandTrigger="<c-j>"
 
-""""""""""""""""""""""""""""""
-" => bufExplorer plugin
-""""""""""""""""""""""""""""""
-let g:bufExplorerDefaultHelp=0
-let g:bufExplorerShowRelativePath=1
-let g:bufExplorerFindActive=1
-let g:bufExplorerSortBy='name'
-map <F1> :BufExplorer<CR>
-
 """""""""""""""""""""""""""""
 " => MRU plugin
 """""""""""""""""""""""""""""
@@ -219,71 +213,3 @@ let g:goyo_width=100
 let g:goyo_margin_top = 2
 let g:goyo_margin_bottom = 2
 noremap <silent> <leader>z :Goyo<cr>
-
-set tags=/home/csp/tags/tags
-
-" Visual mode pressing * or # searches for the current selection
-" Super useful! From an idea by Michael Naumann
-vnoremap <silent> * :call VisualSelection('f', '')<CR>
-vnoremap <silent> # :call VisualSelection('b', '')<CR>
-function! VisualSelection(direction, extra_filter) range
-   let l:saved_reg = @"
-   execute "normal! vgvy"
-
-   let l:pattern = escape(@", '\\/.*$^~[]')
-   let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-   if a:direction == 'b'
-       execute "normal ?" . l:pattern . "^M"
-   elseif a:direction == 'gv'
-       call CmdLine("Ack \"" . l:pattern . "\" " )
-   elseif a:direction == 'replace'
-       call CmdLine("%s" . '/'. l:pattern . '/')
-   elseif a:direction == 'f'
-       execute "normal /" . l:pattern . "^M"
-   endif
-
-   let @/ = l:pattern
-   let @" = l:saved_reg
-endfunction
-
-autocmd BufWrite * :call TrimTabOrSpace()
-func! TrimTabOrSpace()
-  let fts = ['c', 'cpp', 'python']
-  if index(fts, &filetype) != -1
-    exe "normal mz"
-    %s/\s\+$//ge
-    %s/\t/    /ge
-    exe "normal `z"
-  endif
-endfunc
-
-autocmd BufNewFile *.h,*.hpp :call AddFileHeaderProtection()      
-func AddFileHeaderProtection()
-    let l:filename = substitute(expand("%"), "[\\./]", "_", "g")
-    call setline(1, "#ifndef _" . toupper(l:filename))
-    call setline(2, "#define _" . toupper(l:filename)) 
-    call setline(3, "")
-    call setline(4, "")
-    call setline(5, "")
-    call setline(6, "#endif")
-    call AddAuthorInfomation()
-endfunc
-
-autocmd BufNewFile *.c,*.cpp,*.cxx,*.cc :call AddAuthorInfomation()      
-func AddAuthorInfomation()
-    call append(0, "/* =====================================================================")
-    call append(1, " * Copyright (C) " . strftime("%Y") . " chen shuangping. All Rights Reserved")
-    call append(2, " *    Filename: " . expand("%"))
-    call append(3, " * Description: ")
-    call append(4, " *     Created: " . strftime("%c"))
-    call append(5, " *      Author: csp@kuangzhitech.com")
-    call append(6, " * =====================================================================")
-    call append(7, " */")
-    call cursor(4, 17, 0)
-endfunc
-
-autocmd BufRead *.ttcn3 call OnTtcnLoaded()
-func OnTtcnLoaded()
-  set filetype=ttcn
-endfunc
