@@ -1,7 +1,6 @@
 
 call plug#begin('~/.vim/plugged')
 Plug 'mincore/my.vim'
-Plug 'mincore/gtags-cscope.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdtree'
@@ -31,3 +30,7 @@ let GtagsCscope_Auto_Map = 1
 
 " ultisnips
 let g:UltiSnipsExpandTrigger="<c-j>"
+
+" fzf
+nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <C-p> :Files<CR>
