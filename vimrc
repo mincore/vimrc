@@ -33,4 +33,4 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 
 " fzf
 nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <C-p> :Files<CR>
+nnoremap <C-p> :Files<CR>
